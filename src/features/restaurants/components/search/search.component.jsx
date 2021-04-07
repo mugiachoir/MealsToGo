@@ -10,7 +10,7 @@ const SearchContainer = styled(View)`
   padding: ${(props) => props.theme.space[3]};
 `;
 
-const Search = () => {
+const Search = ({ isFavouritesToggled, onFavouritesToggled }) => {
   const onChangeSearch = (query) => {
     setSearchKeyword(query);
   };
@@ -24,6 +24,8 @@ const Search = () => {
   return (
     <SearchContainer>
       <Searchbar
+        icon={isFavouritesToggled ? "heart" : "heart-outline"}
+        onIconPress={onFavouritesToggled}
         placeholder="Search location"
         value={searchKeyword}
         onChangeText={onChangeSearch}

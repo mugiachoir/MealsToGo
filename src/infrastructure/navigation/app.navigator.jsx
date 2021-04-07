@@ -1,21 +1,18 @@
 import React, { useContext } from "react";
-import { Text } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { ThemeContext } from "styled-components";
-import SafeArea from "../../components/utility/safe-area.component";
 
 import RestaurantsNavigator from "./restaurants.navigator";
+import SettingsNavigator from "./settings.navigator";
 import MapScreen from "../../features/map/screens/map.screen";
 
-const Tab = createBottomTabNavigator();
+import { FavouritesContextProvider } from "../../services/favourites/favourites.context";
+import { LocationContextProvider } from "../../services/location/location.context";
+import { RestaurantContextProvider } from "../../services/restaurants/restaurant.context";
 
-const Settings = () => (
-  <SafeArea>
-    <Text>Settings</Text>
-  </SafeArea>
-);
+const Tab = createBottomTabNavigator();
 
 const TAB_ICON = {
   Restaurants: "md-restaurant",
@@ -36,19 +33,23 @@ const AppNavigator = () => {
   const themeContext = useContext(ThemeContext);
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={createScreenOptions}
-        tabBarOptions={{
-          activeTintColor: `${themeContext.colors.brand.secondary}`,
-          inactiveTintColor: `${themeContext.colors.brand.muted}`,
-        }}
-      >
-        <Tab.Screen name="Restaurants" component={RestaurantsNavigator} />
-        <Tab.Screen name="Settings" component={Settings} />
-        <Tab.Screen name="Map" component={MapScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <FavouritesContextProvider>
+      <LocationContextProvider>
+        <RestaurantContextProvider>
+          <Tab.Navigator
+            screenOptions={createScreenOptions}
+            tabBarOptions={{
+              activeTintColor: `${themeContext.colors.brand.secondary}`,
+              inactiveTintColor: `${themeContext.colors.brand.muted}`,
+            }}
+          >
+            <Tab.Screen name="Restaurants" component={RestaurantsNavigator} />
+            <Tab.Screen name="Settings" component={SettingsNavigator} />
+            <Tab.Screen name="Map" component={MapScreen} />
+          </Tab.Navigator>
+        </RestaurantContextProvider>
+      </LocationContextProvider>
+    </FavouritesContextProvider>
   );
 };
 

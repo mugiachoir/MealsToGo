@@ -13,6 +13,12 @@ const body = (theme) => `
     font-size:${theme.fontSizes.body};
 `;
 
+const heading = (theme) => `
+    font-size:${theme.fontSizes.h5};
+    font-family:${theme.fonts.heading};
+    text-align:center;
+`;
+
 const hint = (theme) => `
     font-size:${theme.fontSizes.body};
 `;
@@ -38,6 +44,7 @@ const variants = {
   caption,
   error,
   hint,
+  heading,
 };
 
 const Text = styled.Text`
